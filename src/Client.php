@@ -46,14 +46,14 @@ class Client
      *
      * @var string
      */
-    private $default_term = 'bar';
+    private $default_term = null;
 
     /**
      * Default location
      *
      * @var string
      */
-    private $default_location = 'Chicago, IL';
+    private $default_location = null;
 
     /**
      * Default search limit
@@ -214,11 +214,20 @@ class Client
      */
     private function buildQueryParams($attributes = [])
     {
-        $defaults = array(
-            'term' => $this->default_term,
-            'location' => $this->default_location,
+        $defaults = [
             'limit' => $this->search_limit
-        );
+        ];
+
+        if($this->default_term)
+        {
+            $defaults['term'] = $this->default_term;
+        }
+
+        if($this->default_location)
+        {
+            $defaults['location'] = $this->default_location;
+        }
+
         $attributes = array_merge($defaults, $attributes);
 
         return http_build_query($attributes);
